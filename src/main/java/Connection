@@ -1,0 +1,80 @@
+       /**
+        * Attributi per la connessione
+        * @param url host e nome database
+        * @param user di postgres
+        * @param password di postgres
+        */
+        private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+        private static final String USER = "postgres";
+        private static final String PASSWORD = "280787";
+        /**
+         * QUERY da risolvere
+         */
+        private static final String QRY = "FROM Utente";
+
+
+        /**
+         * @param connection connessione al database
+         * @param preparedStatement richiesta al database **verrà passata la query come parametro
+         * @param resultSet set di risultati della richiesta al database
+         */
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            /**
+             * carico il driver per connettermi su postgres
+             */
+            Class.forName("org.postgresql.Driver");
+            try {
+                /**
+                 * Tentativo di connessione al database
+                 */
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                /**
+                 * Esecuzione QUERY
+                 */
+                preparedStatement = connection.prepareStatement(QRY);
+                resultSet = preparedStatement.executeQuery();
+
+                while(resultSet.next()) {
+                    String nome = resultSet.getString("nome");
+                    String cognome = resultSet.getString("cognome");
+                    System.out.println("Comune: " + nome + " - Cognome: " + cognome);
+                }
+            }
+            /**
+             * Tentativo di connessione al database FALLITO
+             */
+            catch (SQLException sqlException) {
+                System.out.println("Impossibile connettersi al DB: " + sqlException.getMessage());
+            }
+        }
+        /**
+         * Tentativo di caricamento del driver FALLITO
+         */
+        catch (ClassNotFoundException e) {
+            System.out.println("Impossibile trovare il driver JDBC: " + e.getMessage());
+        }
+        finally {
+            try {
+                /**Chiusura risorse
+                 *
+                 */
+                if(resultSet != null)
+                    resultSet.close();
+                if(preparedStatement != null)
+                    preparedStatement.close();
+                if(connection != null)
+                    connection.close();
+            }
+
+
+            /**
+             * Tentativo di chiusura database
+             */
+            catch (SQLException sqlE) {
+                System.out.println("Impossibile chiudere il DB: " + sqlE.getMessage());
+            }
+        }
