@@ -16,9 +16,6 @@ public class Main {
         manager.getTransaction().begin();
 
 
-        //dbUtility.creaSale();
-        //dbUtility.creaPosti(10);
-        //dbUtility.inserisciSpettacoli();
         dbUtility.menu();
 
 

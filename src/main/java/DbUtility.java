@@ -494,7 +494,7 @@ public class DbUtility {
 
 
     /**
-     * INPUT UTENTE
+     * CHECK SU INPUT UTENTE
      */
         //CITTA'
     public String scegliCitta(){
@@ -614,7 +614,7 @@ public class DbUtility {
     }
 
         //DATA
-    public String scegliData() throws ParseException{
+    public String scegliData(){
 
         String data;
 
